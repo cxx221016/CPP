@@ -1,0 +1,41 @@
+{
+    "kernelinfos": [
+        {
+            "name": "Linux",
+            "version": "4.4.0-31-generic",
+            "release": "55-Ubuntu SMP Wed Jul 13 00:07:12 UTC 2016",
+            "machine": "x86_64",
+            "processor": "x86_64",
+            "cpuinfo": "Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz",
+            "cpucount": 8,
+            "cpuspeed": 2593.0,
+            "cpuload": 0.0,
+            "memtotal": 15931,
+            "memfree": 1001,
+            "memused": 14930,
+            "mempercent": 93.8,
+            "swaptotal": 2047,
+            "swapfree": 2047,
+            "swapused": 0,
+            "swappercent": 0.0,
+            "disktotal": 476940,
+            "diskfree": 476940,
+            "diskused": 0,
+            "diskpercent": 0.0,
+            "diskio": 0.0,
+            "netio": 0.0,
+            "boottime": 1470000000.0,
+            "uptime": 1470000000.0,
+            "hostname": "localhost",
+            "ip": "127.0.0.1"
+        }
+    ],
+    "usrinfos": [
+        {
+            "name": "root",
+            "terminal": "/dev/pts/0",
+            "host": "localhost",
+            "started": 1470000000.0
+        }
+    ]
+}
