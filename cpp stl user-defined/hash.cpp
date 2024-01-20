@@ -65,5 +65,6 @@ int main()
     {
         cout<<pr.first<<" "<<pr.second<<" "<<dis<<endl;
     }
+    cout<<hash<string>()("hello")<<endl;
     system("pause");
 }

@@ -7,6 +7,7 @@
 #include<queue>
 #include<deque>
 #include<climits>
+#include<chrono>
 using namespace std;
 
 void Dijkstra(vector<vector<int>>& edges,int n,int start)
@@ -33,10 +34,10 @@ void Dijkstra(vector<vector<int>>& edges,int n,int start)
             }
         }
     }
-    for(int i=0;i<n;i++)
-    {
-        if(dist[i]!=INT_MAX&&i!=start) cout<<i<<" "<<dist[i]<<"\n";
-    }
+    // for(int i=0;i<n;i++)
+    // {
+    //     if(dist[i]!=INT_MAX&&i!=start) cout<<i<<" "<<dist[i]<<"\n";
+    // }
     //cout<<endl;
 }
 
@@ -53,7 +54,11 @@ int main()
     }
     int start;
     cin>>start;
-    Dijkstra(edges,n,start);
+    auto btime=chrono::high_resolution_clock::now();
+    for (int i=0;i<10000;i++)
+        Dijkstra(edges,n,start);
+    auto etime=chrono::high_resolution_clock::now();
+    cout<<"Time taken: "<<chrono::duration_cast<chrono::milliseconds>(etime-btime).count()<<" ms\n";
     system("pause");
     return 0;
 }

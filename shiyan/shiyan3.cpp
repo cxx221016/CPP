@@ -14,6 +14,9 @@
 #include<random>
 #include<fstream>
 #include<stack>
+#include<thread>
+#include<mutex>
+#include<atomic>
 using namespace std;
 #define DEBUG
 //gcc -S ./shiyan/shiyan3.cpp -o ./shiyan/shiyan3.s
@@ -142,44 +145,71 @@ public:
     }
 };
 
-class Solution {
+struct B
+{
+    int a;
+    int b;
+    B()=default;
+    B(int _a,int _b):a(_a),b(_b)
+    {
+        std::cout<<"B()"<<endl;
+    };
+    ~B()
+    {
+        std::cout<<"~B()"<<endl;
+    }
+
+};
+
+
+class A
+{
+    std::vector<std::thread*> threads;
+    std::atomic<bool> stop;
+    B* b;
 public:
-    int numSubarrayBoundedMax(vector<int>& nums, int left, int right) {
-        int n=nums.size();
-        int res=0;
-        int l=0,r=0;
-        int cnt=0;
-        while(r<n)
+    A():stop(true)
+    {
+        b=new B();
+        for(int i=0;i<10;i++)
         {
-            if(nums[r]>=left&&nums[r]<=right)
-            {
-                cnt=r-l+1;
-            }
-            else if(nums[r]<left)
-            {
-                cnt=cnt;
-            }
-            else if(nums[r]>right)
-            {
-                l=r+1;
-                cnt=0;
-            }
-            res+=cnt;
-            r++;
+            threads.emplace_back(new thread([&](){
+                static B* tmpb=b;
+                while(stop)
+                {
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
+                    printf("stop %d  num %d\n",stop.load(),std::this_thread::get_id());
+                    printf("this: %x &b: %x b->a: %d b->b: %d\n",tmpb,tmpb->a,tmpb->b);
+                }
+            }));
         }
-        return res;
+    }
+    ~A()
+    {
+        std::cout<<"~A"<<std::endl;
+        stop=false;
+        for(auto& t:threads)
+        {
+            t->join();
+        }
+        delete b;
+        std::cout<<"~A end"<<std::endl;
+    }
+    void show()
+    {
+        printf("show %x\n",this);
     }
 };
 
 int main()
 {
-    
-    int n=10;
-    while(n--)
-    {
-        uintptr_t tmp;
-        std::cout<<(&tmp)<<std::endl;
-    }
+    A* a=new A();
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    free(a);
+    a=nullptr;
+    std::cout<<"free end"<<std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::cout<<"main end"<<std::endl;
     system("pause");
     return 0;
 }

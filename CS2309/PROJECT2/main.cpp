@@ -10,15 +10,15 @@ void GetMoreFile()
 	ZeroMemory(&bi, sizeof(BROWSEINFO));
 	bi.hwndOwner = NULL;
 	bi.pszDisplayName = szBuffer;
-	bi.lpszTitle = L"ÇëÊäÈë";//ÓÃÒÔÏòÓÃ»§ÏÔÊ¾ÌáÊ¾×Ö·û´®
+	bi.lpszTitle = L"è¯·è¾“å…¥";//ç”¨ä»¥å‘ç”¨æˆ·æ˜¾ç¤ºæç¤ºå­—ç¬¦ä¸²
 	bi.ulFlags = BIF_RETURNONLYFSDIRS |BIF_USENEWUI |BIF_BROWSEINCLUDEFILES;
 	LPITEMIDLIST idl = SHBrowseForFolder(&bi);
 	if (NULL == idl)
 	{
 		return;
 	}
-	SHGetPathFromIDList(idl, szBuffer);//»ñµÃÂ·¾¶
-	MessageBox(NULL, szBuffer, szBuffer, 0);//Êä³ö»ñµÃµÄÂ·¾¶
+	SHGetPathFromIDList(idl, szBuffer);//è·å¾—è·¯å¾„
+	MessageBox(NULL, szBuffer, szBuffer, 0);//è¾“å‡ºè·å¾—çš„è·¯å¾„
 }
 LRESULT CALLBACK WindowProc(
 	HWND hwnd,
@@ -28,10 +28,10 @@ LRESULT CALLBACK WindowProc(
 ) {
 	switch (uMsg) {
 	case WM_CLOSE:
-		DestroyWindow(hwnd);//·¢ËÍÒ»¸öÏûÏ¢WM_Destroy£¬±íÊ¾»ÙÃğ´°¿Ú£¬µ«³ÌĞò»¹ÔÚ
+		DestroyWindow(hwnd);//å‘é€ä¸€ä¸ªæ¶ˆæ¯WM_Destroyï¼Œè¡¨ç¤ºæ¯ç­çª—å£ï¼Œä½†ç¨‹åºè¿˜åœ¨
 		break;
 	case WM_DESTROY:
-		PostQuitMessage(0);//·¢ËÍÕı³£³ÌĞòÍË³öµÄÏûÏ¢
+		PostQuitMessage(0);//å‘é€æ­£å¸¸ç¨‹åºé€€å‡ºçš„æ¶ˆæ¯
 		break;
 	case WM_LBUTTONUP:
 		DestroyWindow(hwnd);
@@ -60,14 +60,14 @@ int WINAPI wWinMain(HINSTANCE hInstance,
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 	UpdateWindow(hwnd);
 	MSG msg;
-	GetMoreFile();//´ò¿ªÎÄ¼şÑ¡ÔñÍ¼ĞÎ½çÃæÒÔ»ñÈ¡ÎÄ¼şÂ·¾¶
+	GetMoreFile();//æ‰“å¼€æ–‡ä»¶é€‰æ‹©å›¾å½¢ç•Œé¢ä»¥è·å–æ–‡ä»¶è·¯å¾„
 	while (1) {
 		if (GetMessage(&msg, NULL, 0, 0) == FALSE) {
 			break;
 		}
-		//·­ÒëÏûÏ¢
+		//ç¿»è¯‘æ¶ˆæ¯
 		TranslateMessage(&msg);
-		//·Ö·¢ÏûÏ¢
+		//åˆ†å‘æ¶ˆæ¯
 		DispatchMessage(&msg);
 		Sleep(20);
 	}
