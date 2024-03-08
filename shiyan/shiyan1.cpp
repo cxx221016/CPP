@@ -38,10 +38,10 @@ class MyClass
     }
 };
 
-MyClass GetTemporary()
+MyClass* GetTemporary()
 {
     MyClass A{};
-    return A;
+    return &A;
 }
 
 
@@ -50,7 +50,7 @@ MyClass GetTemporary()
 
 int main()
 {
-    MyClass myClass = GetTemporary();  // 注意这里的拷贝构造函数
+    auto A=GetTemporary();
     return 0;
 }
 

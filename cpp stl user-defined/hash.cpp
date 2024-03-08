@@ -46,6 +46,7 @@ public:
 
 
 
+
 static constexpr auto tpl_hash=[f=hash<int>()](const tuple<int,int,int>& entry)->size_t
 {
     auto&& [x,y,z]=entry;

@@ -10,6 +10,11 @@ int main()
 {
     int i=0;
     vector<int> nums(10);
+
+    istream_iterator<int> is(cin);
+    copy_n(is,10,nums.begin());
+    
+
     for_each(nums.begin(),nums.end(),[&](int& x)
     {
         x=i++;
