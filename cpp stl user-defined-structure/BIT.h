@@ -10,7 +10,6 @@ using namespace std;
 *@param update: update the value of nums[i] by x
 *@param query: get the sum of nums[1]~nums[i]
 */
-
 class BIT
 {
     vector<int> nums;

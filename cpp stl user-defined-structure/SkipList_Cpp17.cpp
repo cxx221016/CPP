@@ -233,7 +233,7 @@ struct SkipListTest
         std::vector<K> keys;
         if constexpr (std::is_same_v<K, std::string>)
         {
-            std::vector<std::string> strlist{"xccc","dfsf","ergetgt","4dfsgg"};
+            std::vector<std::string> strlist{"xccc", "dfsf", "ergetgt", "4dfsgg"};
             for (int i = 0; i < counts; i++)
             {
                 K key;
@@ -256,7 +256,7 @@ struct SkipListTest
                 keys.push_back(key);
             }
         }
-        std::cout<<"--------------------------------------------------------------------------------"<<std::endl;
+        std::cout << "--------------------------------------------------------------------------------" << std::endl;
         std::chrono::milliseconds d;
         {
             std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
@@ -267,8 +267,8 @@ struct SkipListTest
                 //     std::cout << "insert " << i << std::endl;
             }
             std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-            std::cout<<"level: "<<list.getlevel()<<std::endl;
-            std::cout<<"insert time: "<<std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()<<"ms"<<std::endl;
+            std::cout << "level: " << list.getlevel() << std::endl;
+            std::cout << "insert time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
             d += std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
         }
 
@@ -281,7 +281,7 @@ struct SkipListTest
                 //     std::cout << "find " << i << std::endl;
             }
             std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-            std::cout<<"find time: "<<std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()<<"ms"<<std::endl;
+            std::cout << "find time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
             d += std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
         }
 
@@ -294,19 +294,27 @@ struct SkipListTest
                 //     std::cout << "erase " << i << std::endl;
             }
             std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-            std::cout<<"erase time: "<<std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()<<"ms"<<std::endl;
+            std::cout << "erase time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
             d += std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
         }
 
         std::cout << "total time: " << d.count() << "ms" << std::endl;
-        std::cout<<"--------------------------------------------------------------------------------"<<std::endl;
+        std::cout << "--------------------------------------------------------------------------------" << std::endl;
     };
+};
+
+class NoDefaultConstructible
+{
+    NoDefaultConstructible() = delete;
+    NoDefaultConstructible(const NoDefaultConstructible &) = delete;
+    NoDefaultConstructible(NoDefaultConstructible &&) = delete;
 };
 
 int main()
 {
     SkipListTest::test<int, int>(1000000, false);
     SkipListTest::test<std::string, int>(1000000, false);
+    SkipListTest::test<NoDefaultConstructible, int>(1000000, true);
 
     system("pause");
     return 0;
