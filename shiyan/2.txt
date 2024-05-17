@@ -1,0 +1,79 @@
+constexpr int N=1e9;
+class RangeModule {
+    struct Node{
+        Node* left,*right;
+        int val,add;
+        Node():val(0),add(0),left(nullptr),right(nullptr){
+
+        }
+    };
+    Node* root;
+public:
+    void update(Node* node,int iLeft,int iRight,int bizLeft,int bizRight,int val){
+        if(iLeft>=bizLeft&&iRight<=bizRight){
+            node->val=val==1;
+            node->add=val;
+            return ;
+        }
+        auto iMid=(iLeft+iRight)>>1;
+        pushDown(node);
+        if(iMid>=bizLeft) update(node->left,iLeft,iMid,bizLeft,bizRight,val);
+        if(iMid<bizRight) update(node->right,iMid+1,iRight,bizLeft,bizRight,val);
+        pushUp(node);
+    }
+
+    bool query(Node* node,int iLeft,int iRight,int bizLeft,int bizRight){
+        if(iLeft>=bizLeft&&iRight<=bizRight){
+            return node->val;
+        }
+        
+        auto iMid=(iLeft+iRight)>>1;
+        pushDown(node);
+        if(iMid>=bizLeft) if(!query(node->left,iLeft,iMid,bizLeft,bizRight)) return false;
+        if(iMid<bizRight) if(!query(node->right,iMid+1,iRight,bizLeft,bizRight)) return false;
+        return true;
+    }
+
+    void pushDown(Node* node){
+        if(!node->left) node->left=new Node();
+        if(!node->right) node->right=new Node();
+        if(!node->add){
+            return;
+        }
+        node->left->val= node->add==1;
+        node->right->val= node->add==1;
+        node->left->add= node->add;
+        node->right->add=node->add;
+        node->add=0;
+        
+    }
+
+    void pushUp(Node* node){
+        node->val= node->left->val && node->right->val;
+    }
+
+
+    RangeModule():root(new Node()) {
+
+    }
+    
+    void addRange(int left, int right) {
+        update(root,0,N,left,right-1,1);
+    }
+    
+    bool queryRange(int left, int right) {
+        return query(root,0,N,left,right-1);
+    }
+    
+    void removeRange(int left, int right) {
+        update(root,0,N,left,right-1,-1);
+    }
+};
+
+/**
+ * Your RangeModule object will be instantiated and called as such:
+ * RangeModule* obj = new RangeModule();
+ * obj->addRange(left,right);
+ * bool param_2 = obj->queryRange(left,right);
+ * obj->removeRange(left,right);
+ */
