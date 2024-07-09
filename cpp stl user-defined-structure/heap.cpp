@@ -79,6 +79,81 @@ public:
     }
 };
 
+class MinHeap
+{
+private:
+    std::vector<int> data;
+    int n;
+
+    void doubleSpace()
+    {
+        data.resize(2 * data.size());
+    }
+
+    void down(int hole)
+    {
+        auto tmp = data[hole];
+        auto child = 0;
+        for (; hole * 2 <= n; hole = child)
+        {
+            child = 2 * hole;
+            if (child + 1 <= n && data[child + 1] < data[child])
+            {
+                ++child;
+            }
+
+            if (data[child] < data[hole])
+            {
+                data[hole] = data[child];
+            }
+            else
+            {
+                break;
+            }
+        }
+        data[hole] = tmp;
+    }
+
+public:
+    MinHeap(const std::vector<int> &nums)
+    {
+        n = nums.size();
+        data.resize(2 * n);
+        for (int i = 1; i <= n; ++i)
+        {
+            data[i] = nums[i - 1];
+        }
+
+        for (int i = n / 2; i >= 1; --i)
+        {
+            down(i);
+        }
+    }
+
+    int pop()
+    {
+        auto res = data[1];
+        data[1] = data[n--];
+        down(1);
+        return res;
+    }
+
+    void push(int val)
+    {
+        if (n == data.size() - 1)
+        {
+            doubleSpace();
+        }
+
+        int hole = ++n;
+        for (; hole > 1 && val < data[hole / 2]; hole /= 2)
+        {
+            data[hole] = data[hole / 2];
+        }
+        data[hole] = val;
+    }
+};
+
 int main()
 {
     std::default_random_engine e(time(nullptr));
